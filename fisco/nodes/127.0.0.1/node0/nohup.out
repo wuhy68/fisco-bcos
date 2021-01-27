@@ -1,0 +1,36 @@
+config file path : config.ini
+[2021-01-26 10:27:14] Initializing...
+FISCO-BCOS Version : 2.7.1
+Build Time         : 20201208 11:00:41
+Build Type         : Linux/clang/Release
+Git Branch         : HEAD
+Git Commit Hash    : 50a7ffba26a7ebc925b7e98483000daaacc67a8a
+[2021-01-26 10:27:14] The FISCO-BCOS is running...
+config file path : config.ini
+[2021-01-26 15:12:01] Initializing...
+[INITIALIZER][P2PInitializer]initConfig for P2PInitializer failed,check Port=30300,EINFO=Throw location unknown (consider using BOOST_THROW_EXCEPTION)
+Dynamic exception type: boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::system::system_error> >
+std::exception::what: bind: Address already in use
+
+config file path : config.ini
+[2021-01-26 15:13:11] Initializing...
+[INITIALIZER][P2PInitializer]initConfig for P2PInitializer failed,check Port=30300,EINFO=Throw location unknown (consider using BOOST_THROW_EXCEPTION)
+Dynamic exception type: boost::exception_detail::clone_impl<boost::exception_detail::error_info_injector<boost::system::system_error> >
+std::exception::what: bind: Address already in use
+
+config file path : config.ini
+[2021-01-26 15:19:26] Initializing...
+FISCO-BCOS Version : 2.7.1
+Build Time         : 20201208 11:00:41
+Build Type         : Linux/clang/Release
+Git Branch         : HEAD
+Git Commit Hash    : 50a7ffba26a7ebc925b7e98483000daaacc67a8a
+[2021-01-26 15:19:26] The FISCO-BCOS is running...
+config file path : config.ini
+[2021-01-26 16:17:10] Initializing...
+FISCO-BCOS Version : 2.7.1
+Build Time         : 20201208 11:00:41
+Build Type         : Linux/clang/Release
+Git Branch         : HEAD
+Git Commit Hash    : 50a7ffba26a7ebc925b7e98483000daaacc67a8a
+[2021-01-26 16:17:12] The FISCO-BCOS is running...
