@@ -53,3 +53,5 @@ org/fisco/bcos/asset/contract/Asset.java
  org.fisco.bcos.asset.contract.Asset$SplitTransactionEventEventResponse
  org.fisco.bcos.asset.contract.Asset$TransferEventEventResponse
  org.fisco.bcos.asset.contract.Asset$UpdateTransactionEventEventResponse
+org/fisco/bcos/asset/client/CLI.java
+ org.fisco.bcos.asset.client.CLI
