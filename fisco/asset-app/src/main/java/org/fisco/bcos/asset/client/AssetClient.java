@@ -3,10 +3,6 @@ package org.fisco.bcos.asset.client;
 import java.math.BigInteger;
 import java.util.*;
 import java.io.*;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Properties;
 import org.fisco.bcos.asset.contract.Asset;
@@ -92,7 +88,7 @@ public class AssetClient {
 			Asset asset = Asset.load(contractAddress, client, cryptoKeyPair);
 			Tuple2<BigInteger, BigInteger> result = asset.select(assetAccount);
 			if (result.getValue1().compareTo(new BigInteger("0")) == 0) {
-				System.out.printf(" 您的信用额度为: %s \n", result.getValue2());
+				System.out.printf(" Your credit limit is: %s \n", result.getValue2());
 				return true;
 			} else {
 				System.out.printf(" %s asset account is not exist \n", assetAccount);
@@ -276,7 +272,7 @@ public class AssetClient {
 
   public static void main(String[] args) throws Exception {
     Scanner scanner = new Scanner(System.in);
-		CLI test = new CLI();
+		CLI platform = new CLI();
 		
 
 		AssetClient client = new AssetClient();
@@ -284,167 +280,135 @@ public class AssetClient {
 		client.deployAssetAndRecordAddr();
 		int transaction_id = 1000000;
 
-
-
-		while(test.getStatus() == true) {
-			while(test.getStatus() == true && test.login() == false);
-			if(test.getStatus()==false) break;
+		while (platform.getStatus()) {
+      while (platform.getStatus() == true && platform.login() == false);
+      
+      if (!platform.getStatus()) break;
+      
 			String x;
-			Map<String,String> map = test.getMap();
+      Map<String,String> map = platform.getMap();
+      
 			for (String key : map.keySet()) {
-				if(client.queryAssetAmount(key)==false){
-					if(key.compareTo("bank") != 0){
-						if(key.compareTo("acc0") == 0){
+				if (client.queryAssetAmount(key) == false) {
+					if (key.compareTo("bank") != 0) {
+						if (key.compareTo("acc0") == 0)
 							x = "10000";
-						}
-						else{
-						x = "1000";
-						}
-					} else{
-						x = "1000000";
-					}
+						else
+						  x = "1000";
+					} else
+            x = "1000000";
+            
 					client.registerAssetAccount(key,new BigInteger(x));
 				}
 			}
 
-			test.clear();
-			boolean judge = true;
-            while(judge){
-                test.msg();
-				int choice, int1, int2;
-				String str1,str2,str3, str4;
-                if(scanner.hasNextInt()){
-                    choice = scanner.nextInt();
-                    switch(choice){
-                        case 0:
-							test.setCurrentNull();
-							judge = false;
-                            break;
-						case 1:
-							System.out.println("------查询本人信用------\n");
-							client.queryAssetAmount(test.getCurrent());
-							System.out.print("Wait for key...");
-							str4 = (String)scanner.nextLine();
+			platform.clearFile();
+      boolean judge = true;
+      
+      while(judge){
+        platform.msg();
+        int choice, int1, int2;
+        String str1,str2,str3, str4;
 
-							break;
-						case 2:
-							System.out.println("------与他人交易------\n");
-							str1 = (String)scanner.nextLine();
-							System.out.print("对方账户: ");
-							str1 = (String)scanner.nextLine();
-							System.out.print("交易金额: ");
-							int1 = scanner.nextInt();
-							str3 = int1+"";
-							str2 = transaction_id +"";
-							transaction_id += 1;
-							client.addAssetTransaction(str2,str1, test.getCurrent() ,new BigInteger(str3));
-							System.out.print("Wait for key...");
-							str4 = (String)scanner.nextLine();
+        if(scanner.hasNextInt()){
+          choice = scanner.nextInt();
+          switch(choice){
+            case 0:
+              platform.setCurrentNull();
+              judge = false;
+              
+              break;
+            case 1:
+              System.out.println("------Check my credit------\n");
+              client.queryAssetAmount(platform.getCurrent());
+              System.out.print("Wait for key...");
+              str4 = (String)scanner.nextLine();
 
-							break;
+              break;
+            case 2:
+              System.out.println("------Trade with others------\n");
+              str1 = (String)scanner.nextLine();
+              System.out.print("Trader Account: ");
+              str1 = (String)scanner.nextLine();
+              System.out.print("Transaction Amount: ");
+              int1 = scanner.nextInt();
+              str3 = int1+"";
+              str2 = transaction_id +"";
+              transaction_id += 1;
+              client.addAssetTransaction(str2,str1, platform.getCurrent() ,new BigInteger(str3));
+              System.out.print("Wait for key...");
+              str4 = (String)scanner.nextLine();
 
-						case 3:
-							System.out.println("------融资/贷款------\n");
-							str1 = (String)scanner.nextLine();
-							System.out.print("融资/贷款金额: ");
-							int1 = scanner.nextInt();
-							str1 = transaction_id +"";
-							transaction_id += 1;
-							str2 = int1+"";
-							client.addAssetTransaction(str1, "bank", test.getCurrent(),new BigInteger(str2));
-							System.out.print("Wait for key...");
-							str4 = (String)scanner.nextLine();
+              break;
 
-							break;
+            case 3:
+              System.out.println("------Financing/Loan------\n");
+              str1 = (String)scanner.nextLine();
+              System.out.print("Financing/Loan Amount: ");
+              int1 = scanner.nextInt();
+              str1 = transaction_id +"";
+              transaction_id += 1;
+              str2 = int1+"";
+              client.addAssetTransaction(str1, "bank", platform.getCurrent(),new BigInteger(str2));
+              System.out.print("Wait for key...");
+              str4 = (String)scanner.nextLine();
 
-						case 4:
-							System.out.println("------欠条拆分------\n");
-							str1 = (String)scanner.nextLine();
-							System.out.print("受益人: ");
-							str1 = (String)scanner.nextLine();
-							System.out.print("原本欠条ID: ");
-							str2 = (String)scanner.nextLine();
-							System.out.print("转让金额: ");
-							int1 = scanner.nextInt();
-							str3 = transaction_id+"";
-							transaction_id+=1;
-							str4 = int1 + "";
-							client.splitAssetTransaction(str2,str3,str1,new BigInteger(str4));
-							System.out.print("Wait for key...");
-							str4 = (String)scanner.nextLine();
-							break;
-						
-						case 5:
-							System.out.println("------转账/还贷------\n");
-							System.out.println("PS：若为还贷，则对方账户为【bank】");
-							str1 = (String)scanner.nextLine();
-							System.out.print("交易ID: ");
-							str1 = (String)scanner.nextLine();
-							System.out.print("转账金额: ");
-							int1 = scanner.nextInt();
-							str2 = transaction_id +"";
-							transaction_id += 1;
-							str3 = int1+"";
-							client.updateAssetTransaction( str1, new BigInteger(str3));
-							System.out.print("Wait for key...");
-							str4 = (String)scanner.nextLine();
-		
-							break;
-						
-						case 6:
-							System.out.print("------查询交易------\n");
-							str1 = (String)scanner.nextLine();
-							System.out.print("原本欠条ID: ");
-							str1 = (String)scanner.nextLine();
-							client.queryAssetTransaction(str1);
-							System.out.print("Wait for key...");
-							str4 = (String)scanner.nextLine();
-						
-						default:
-							System.out.print("Invalid input! Wait for key...");
-							str1 = (String)scanner.nextLine();
-							break;
-                    }
-                }
-            }
-		}
-		test.clear();
-    test.write_file();
-    System.out.println("Bye~");
-    // if (args.length < 1) {
-    //   Usage();
-    // }
+              break;
 
-    // AssetClient client = new AssetClient();
-    // client.initialize();
+            case 4:
+              System.out.println("------IOU Spilt------\n");
+              str1 = (String)scanner.nextLine();
+              System.out.print("Beneficiary: ");
+              str1 = (String)scanner.nextLine();
+              System.out.print("Original ID: ");
+              str2 = (String)scanner.nextLine();
+              System.out.print("Transfer amount: ");
+              int1 = scanner.nextInt();
+              str3 = transaction_id+"";
+              transaction_id+=1;
+              str4 = int1 + "";
+              client.splitAssetTransaction(str2,str3,str1,new BigInteger(str4));
+              System.out.print("Wait for key...");
+              str4 = (String)scanner.nextLine();
+              break;
+            
+            case 5:
+              System.out.println("------Transfer/Loan Repayment------\n");
+              str1 = (String)scanner.nextLine();
+              System.out.print("Trade ID: ");
+              str1 = (String)scanner.nextLine();
+              System.out.print("Transfer Amount: ");
+              int1 = scanner.nextInt();
+              str2 = transaction_id +"";
+              transaction_id += 1;
+              str3 = int1+"";
+              client.updateAssetTransaction( str1, new BigInteger(str3));
+              System.out.print("Wait for key...");
+              str4 = (String)scanner.nextLine();
 
-    // switch (args[0]) {
-    //   case "deploy":
-    //     client.deployAssetAndRecordAddr();
-    //     break;
-    //   case "query":
-    //     if (args.length < 2) {
-    //       Usage();
-    //     }
-    //     client.queryAssetAmount(args[1]);
-    //     break;
-    //   case "register":
-    //     if (args.length < 3) {
-    //       Usage();
-    //     }
-    //     client.registerAssetAccount(args[1], new BigInteger(args[2]));
-    //     break;
-    //   case "transfer":
-    //     if (args.length < 4) {
-    //       Usage();
-    //     }
-    //     client.transferAsset(args[1], args[2], new BigInteger(args[3]));
-    //     break;
-    //   default:
-    //     {
-    //       Usage();
-    //     }
-    // }
+              break;
+            
+            case 6:
+              System.out.print("------Trade Check------\n");
+              str1 = (String)scanner.nextLine();
+              System.out.print("Original ID: ");
+              str1 = (String)scanner.nextLine();
+              client.queryAssetTransaction(str1);
+              System.out.print("Wait for key...");
+              str4 = (String)scanner.nextLine();
+            
+            default:
+              System.out.print("Invalid input! Wait for key...");
+              str1 = (String)scanner.nextLine();
+              break;
+          }
+        }
+      }
+    }
+    
+		platform.clearFile();
+    platform.writeToFile();
+    System.out.println("Trade Finish");
     System.exit(0);
   }
 }
