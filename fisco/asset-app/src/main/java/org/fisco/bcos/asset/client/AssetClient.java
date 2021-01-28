@@ -291,11 +291,7 @@ public class AssetClient {
 			for (String key : map.keySet()) {
 				if (client.queryAssetAmount(key) == false) {
 					if (key.compareTo("bank") != 0) {
-<<<<<<< HEAD
 						if (key.compareTo("acc0") == 0)
-=======
-						if (key.compareTo("user") == 0)
->>>>>>> b0e2296dddd942d0d94f65d583e0637ddc75f4d0
 							x = "10000";
 						else
 						  x = "1000";

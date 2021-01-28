@@ -75,20 +75,15 @@ public class CLI{
         String account, password, again;
         Console console = System.console();
         System.out.println("------Welecome to the FISCO-BCOS Trade Platform------\n");
-<<<<<<< HEAD
         System.out.println("Plz enter:\n1:SIGN IN\t2:SIGN UP\t0:quit()");
-=======
-        System.out.println("Plz enter:\n0:SIGN IN\t1:SIGN UP\t2:quit()");
->>>>>>> b0e2296dddd942d0d94f65d583e0637ddc75f4d0
         if (scanner.hasNextInt()){
             choice = scanner.nextInt();
             switch(choice){
-
-<<<<<<< HEAD
-                case 1:
-=======
                 case 0:
->>>>>>> b0e2296dddd942d0d94f65d583e0637ddc75f4d0
+                    this.status = false;
+                    return false;
+
+                case 1:
                     account = (String)scanner.nextLine();
                     System.out.print("------SIGN IN------\nID: ");
                     account = (String)scanner.nextLine();
@@ -105,15 +100,9 @@ public class CLI{
                         return false;
                     } 
 
-<<<<<<< HEAD
                 case 2:
                     account = (String)scanner.nextLine();
                     System.out.print("------REGISTER------\nID: ");
-=======
-                case 1:
-                    account = (String)scanner.nextLine();
-                    System.out.print("------REGISTER------\n ID: ");
->>>>>>> b0e2296dddd942d0d94f65d583e0637ddc75f4d0
                     account = (String)scanner.nextLine();
                     System.out.print("Password:");
                     password = new String(console.readPassword());
@@ -132,13 +121,7 @@ public class CLI{
                         return false;
                     }
 
-<<<<<<< HEAD
 
-=======
-                case 2:
-                    this.status = false;
-                    return false;
->>>>>>> b0e2296dddd942d0d94f65d583e0637ddc75f4d0
 
                 default:
                     System.out.print("Invalid input! Wait for key...");
